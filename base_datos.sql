@@ -1,38 +1,30 @@
+CREATE DATABASE IF NOT EXISTS db_inventario;
+
 USE db_inventario;
 
-DROP TABLE IF EXISTS historial_estados;
-DROP TABLE IF EXISTS bitacora_mantenimiento;
-DROP TABLE IF EXISTS prestamos;
-DROP TABLE IF EXISTS equipos;
-DROP TABLE IF EXISTS solicitantes;
-DROP TABLE IF EXISTS usuarios_app;
-DROP TABLE IF EXISTS marcas;
-DROP TABLE IF EXISTS categorias;
-DROP TABLE IF EXISTS departamentos;
-
-CREATE TABLE departamentos (
+CREATE TABLE IF NOT EXISTS departamentos (
     id_departamento INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) UNIQUE NOT NULL
 );
 
-CREATE TABLE categorias (
+CREATE TABLE IF NOT EXISTS categorias (
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) UNIQUE NOT NULL
 );
 
-CREATE TABLE marcas (
+CREATE TABLE IF NOT EXISTS marcas (
     id_marca INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) UNIQUE NOT NULL
 );
 
-CREATE TABLE usuarios_app (
+CREATE TABLE IF NOT EXISTS usuarios_app (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     rol ENUM('Administrador', 'Consulta') NOT NULL
 );
 
-CREATE TABLE solicitantes (
+CREATE TABLE IF NOT EXISTS solicitantes (
     id_solicitante INT AUTO_INCREMENT PRIMARY KEY,
     numero_institucional VARCHAR(50) UNIQUE NOT NULL,
     nombre VARCHAR(150) NOT NULL,
@@ -40,7 +32,7 @@ CREATE TABLE solicitantes (
     FOREIGN KEY (id_departamento) REFERENCES departamentos(id_departamento) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE equipos (
+CREATE TABLE IF NOT EXISTS equipos (
     id_inventario VARCHAR(50) PRIMARY KEY,
     descripcion VARCHAR(200) NOT NULL,
     id_categoria INT NOT NULL,
@@ -50,7 +42,7 @@ CREATE TABLE equipos (
     FOREIGN KEY (id_marca) REFERENCES marcas(id_marca) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE prestamos (
+CREATE TABLE IF NOT EXISTS prestamos (
     id_prestamo INT AUTO_INCREMENT PRIMARY KEY,
     id_inventario VARCHAR(50) NOT NULL,
     id_solicitante INT NOT NULL,
@@ -68,7 +60,7 @@ CREATE TABLE prestamos (
     FOREIGN KEY (id_usuario_recepcion) REFERENCES usuarios_app(id_usuario) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE bitacora_mantenimiento (
+CREATE TABLE IF NOT EXISTS bitacora_mantenimiento (
     id_mantenimiento INT AUTO_INCREMENT PRIMARY KEY,
     id_inventario VARCHAR(50) NOT NULL,
     fecha_reporte DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -78,7 +70,7 @@ CREATE TABLE bitacora_mantenimiento (
     FOREIGN KEY (id_inventario) REFERENCES equipos(id_inventario) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE historial_estados (
+CREATE TABLE IF NOT EXISTS historial_estados (
     id_historial INT AUTO_INCREMENT PRIMARY KEY,
     id_inventario VARCHAR(50) NOT NULL,
     estado_anterior VARCHAR(20),
