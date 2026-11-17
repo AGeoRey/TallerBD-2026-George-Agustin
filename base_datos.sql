@@ -56,10 +56,12 @@ CREATE TABLE prestamos (
     id_solicitante INT NOT NULL,
     id_usuario_entrega INT NOT NULL,
     id_usuario_recepcion INT DEFAULT NULL,
-    fecha_prestamo DATETIME NOT NULL,
+    fecha_prestamo DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_prevista_devolucion DATETIME NOT NULL,
     fecha_recepcion DATETIME DEFAULT NULL,
     condicion_regreso TEXT DEFAULT NULL,
+    CONSTRAINT chk_fecha_prevista CHECK (fecha_prevista_devolucion >= fecha_prestamo),
+    CONSTRAINT chk_fecha_recepcion CHECK (fecha_recepcion IS NULL OR fecha_recepcion >= fecha_prestamo),
     FOREIGN KEY (id_inventario) REFERENCES equipos(id_inventario) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (id_solicitante) REFERENCES solicitantes(id_solicitante) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (id_usuario_entrega) REFERENCES usuarios_app(id_usuario) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -72,6 +74,7 @@ CREATE TABLE bitacora_mantenimiento (
     fecha_reporte DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     descripcion_falla TEXT NOT NULL,
     fecha_reparacion DATETIME DEFAULT NULL,
+    CONSTRAINT chk_fecha_reparacion CHECK (fecha_reparacion IS NULL OR fecha_reparacion >= fecha_reporte),
     FOREIGN KEY (id_inventario) REFERENCES equipos(id_inventario) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -83,3 +86,9 @@ CREATE TABLE historial_estados (
     fecha_cambio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_inventario) REFERENCES equipos(id_inventario) ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+/*
+Observaciones (objetos programables):
+Contempla cómo impedir que un equipo pueda tener dos préstamos activos al mismo tiempo.
+Define cómo se registrarán los cambios de estado del equipo para que la información histórica se mantenga actualizada.
+*/
