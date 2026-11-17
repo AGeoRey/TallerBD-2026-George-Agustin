@@ -1,6 +1,14 @@
-DROP DATABASE IF EXISTS control_prestamos;
-CREATE DATABASE control_prestamos;
-USE control_prestamos;
+USE db_inventario;
+
+DROP TABLE IF EXISTS historial_estados;
+DROP TABLE IF EXISTS bitacora_mantenimiento;
+DROP TABLE IF EXISTS prestamos;
+DROP TABLE IF EXISTS equipos;
+DROP TABLE IF EXISTS solicitantes;
+DROP TABLE IF EXISTS usuarios_app;
+DROP TABLE IF EXISTS marcas;
+DROP TABLE IF EXISTS categorias;
+DROP TABLE IF EXISTS departamentos;
 
 CREATE TABLE departamentos (
     id_departamento INT AUTO_INCREMENT PRIMARY KEY,

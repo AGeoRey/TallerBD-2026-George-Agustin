@@ -19,17 +19,17 @@ El sistema resuelve problemáticas operativas mediante:
 ---
 
 ## 2. Tecnologías Utilizadas
-De acuerdo con los requisitos del proyecto, el desarrollo emplea:
-- **Sistema Operativo:** Linux
+De acuerdo con los requisitos y el entorno de evaluación del proyecto, el desarrollo emplea:
+- **Sistema Operativo:** Linux (Debian 13, 64 bits)
 - **Servidor Web:** Apache
-- **Backend:** PHP 8
-- **Base de Datos:** MariaDB
+- **Backend:** PHP 8.4
+- **Base de Datos:** MariaDB 11.8.6
 - **Frontend:** HTML y CSS
 
 ---
 
 ## 3. Modelo de Datos (Avance 1 - DDL)
-La base de datos `control_prestamos` utiliza un modelo relacional normalizado con llaves foráneas configuradas en `ON DELETE RESTRICT` para garantizar la integridad referencial y evitar la pérdida de información en cascada.
+La base de datos `db_inventario` utiliza un modelo relacional normalizado con llaves foráneas configuradas en `ON DELETE RESTRICT` para garantizar la integridad referencial y evitar la pérdida de información en cascada.
 
 ### Descripción de Tablas
 
