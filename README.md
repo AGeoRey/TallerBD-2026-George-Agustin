@@ -24,7 +24,7 @@ De acuerdo con los requisitos y el entorno de evaluación del proyecto, el desar
 - **Servidor Web:** Apache
 - **Backend:** PHP 8.4
 - **Base de Datos:** MariaDB 11.8.6
-- **Frontend:** HTML y CSS
+- **Frontend:** HTML, CSS y JavaScript
 
 ---
 
@@ -123,6 +123,61 @@ erDiagram
 
 ---
 
-## 4. Estructura del Repositorio
-- `base_datos.sql` — Script DDL con la creación de la base de datos, tablas, llaves primarias, foráneas y restricciones de integridad.
-- `README.md` — Documentación inicial del proyecto y descripción del modelo de datos.
+## 4. Interfaz Web y Navegación (Avance 2 - Frontend)
+La interfaz administrativa está construida con HTML, CSS y JavaScript sin frameworks externos, utilizando un diseño responsivo con menú lateral adaptable a pantallas pequeñas. Todas las pantallas funcionan como páginas dedicadas conectadas mediante parámetros `GET` para facilitar la integración posterior con PHP y MariaDB.
+
+### Módulos Implementados
+- **Acceso y Panel Principal (`login.html`, `inicio.html`):** Pantalla de inicio de sesión y vista general con indicadores del inventario, accesos rápidos y tabla de préstamos activos.
+- **Equipos (`equipos/`):** Inventario con búsqueda y filtro por condición. El formulario `registrar.html` se reutiliza tanto para nuevos registros como para edición al recibir el `id_inventario` por URL.
+- **Solicitantes (`solicitantes/`):** Directorio filtrable por departamento y búsqueda por nombre o número institucional, con formulario único para altas y edición.
+- **Préstamos y Devoluciones (`prestamos/`):** Consulta de préstamos activos, captura de nuevas entregas y recepción de equipo (`devolucion.html`). El flujo de devolución se abre desde la tabla de préstamos activos con el folio correspondiente, muestra en solo lectura al usuario encargado de la entrega y recepción, y permite definir si el equipo regresa a `Disponible` o pasa a `Mantenimiento`.
+- **Mantenimiento (`mantenimiento/`):** Bandeja general de `bitacora_mantenimiento` con filtro por estado (`En revisión` / `Cerrado`), reporte manual de fallas (`registrar.html`) y cierre de revisión técnica (`finalizar.html`) para capturar la fecha de reparación y asignar el estado final (`Disponible` o `Baja`). Accesible desde el menú lateral y desde las acciones de cada equipo.
+- **Consultas (`consultas/`):** `disponibilidad.html` agrupa las vistas de listado general, equipos disponibles, préstamos activos y vencidos. `historial.html` unifica las consultas por solicitante y por equipo; cuando la búsqueda es por equipo, incluye un segundo panel para mostrar los registros generados por el trigger en `historial_estados`.
+- **Catálogos (`catalogos/catalogos.html`):** Concentra en una sola pantalla la administración de `departamentos`, `categorias` y `marcas`.
+
+### Manejo de Roles en la Interfaz
+Los perfiles `Administrador` y `Consulta` comparten la misma estructura de pantallas. Al integrar PHP, los controles de registro, edición, devolución, cierre de mantenimiento y el acceso a catálogos se ocultarán automáticamente para las sesiones con rol de solo lectura.
+
+---
+
+## 5. Estructura del Repositorio
+
+```text
+/
+├── index.html
+├── base_datos.sql
+├── README.md
+├── css/
+│   └── estilos.css
+├── js/
+│   └── app.js
+└── pages/
+    ├── login.html
+    ├── inicio.html
+    ├── equipos/
+    │   ├── equipos.html
+    │   └── registrar.html
+    ├── solicitantes/
+    │   ├── solicitantes.html
+    │   └── registrar.html
+    ├── prestamos/
+    │   ├── prestamos.html
+    │   ├── registrar.html
+    │   └── devolucion.html
+    ├── mantenimiento/
+    │   ├── mantenimiento.html
+    │   ├── registrar.html
+    │   └── finalizar.html
+    ├── consultas/
+    │   ├── disponibilidad.html
+    │   └── historial.html
+    └── catalogos/
+        └── catalogos.html
+```
+
+- `index.html` — Punto de entrada que redirige al inicio de sesión.
+- `pages/` — Pantallas HTML organizadas por módulo funcional.
+- `css/estilos.css` — Hoja de estilos general y reglas responsivas.
+- `js/app.js` — Comportamiento del menú lateral en dispositivos móviles.
+- `base_datos.sql` — Script DDL con la creación de `db_inventario`, tablas, llaves y restricciones de integridad.
+- `README.md` — Documentación del modelo de datos y de la estructura del frontend.

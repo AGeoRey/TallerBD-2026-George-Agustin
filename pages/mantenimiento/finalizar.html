@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Mantenimiento | Control de Préstamos</title>
+    <link rel="stylesheet" href="../../css/estilos.css">
+</head>
+<body class="admin-layout">
+    
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Inventario</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="../inicio.html">Inicio</a></li>
+                <li><a href="../equipos/equipos.html">Equipos</a></li>
+                <li><a href="../solicitantes/solicitantes.html">Solicitantes</a></li>
+                <li><a href="../prestamos/prestamos.html">Préstamos</a></li>
+                <li><a href="mantenimiento.html" class="active">Mantenimiento</a></li>
+                <li><a href="../consultas/disponibilidad.html">Disponibilidad</a></li>
+                <li><a href="../consultas/historial.html">Historial</a></li>
+                <li><a href="../catalogos/catalogos.html">Catálogos</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">☰ Menú</button>
+            <div class="user-info">
+                <span>Usuario Administrador</span>
+                <a href="../login.html" class="btn-logout">Cerrar sesión</a>
+            </div>
+        </header>
+
+        <section class="content">
+            <h1>Finalizar Revisión Técnica</h1>
+            
+            <div class="panel form-panel">
+                <form action="mantenimiento.html" method="GET">
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="info_equipo">Equipo en Mantenimiento</label>
+                            <input type="text" id="info_equipo" value="[ID] - [Descripción del Equipo]" disabled>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="info_falla">Falla Reportada</label>
+                            <textarea id="info_falla" rows="3" disabled>[Descripción de la falla registrada]</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha_reparacion">Fecha de Reparación / Cierre</label>
+                            <input type="datetime-local" id="fecha_reparacion" name="fecha_reparacion" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nuevo_estado">Estado Final del Equipo</label>
+                            <select id="nuevo_estado" name="nuevo_estado" required>
+                                <option value="Disponible">Reparado (Pasar a Disponible)</option>
+                                <option value="Baja">Irreparable (Dar de Baja)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="mantenimiento.html" class="btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn-primary">Confirmar Cierre</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="../../js/app.js"></script>
+</body>
+</html>
