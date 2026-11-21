@@ -40,17 +40,17 @@
             
             <div class="panel">
                 <div class="toolbar">
-                    <div class="filters">
+                    <form action="disponibilidad.html" method="GET" class="filters">
                         <select class="select-filter" id="tipo_reporte" name="tipo_reporte">
                             <option value="general">Listado general de equipos</option>
                             <option value="disponibles">Equipos disponibles</option>
                             <option value="activos">Préstamos activos (quién tiene qué)</option>
                             <option value="vencidos">Préstamos vencidos</option>
                         </select>
-                        <button type="button" class="btn-primary">Visualizar</button>
-                    </div>
+                        <button type="submit" class="btn-primary">Visualizar</button>
+                    </form>
                 </div>
-
+                
                 <div class="table-container">
                     <table class="data-table">
                         <thead>

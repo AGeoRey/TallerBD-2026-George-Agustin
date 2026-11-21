@@ -203,6 +203,7 @@ body.admin-layout {
     border-radius: 10px;
     border: 1px solid var(--color-borde);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    min-width: 0;
 }
 
 .card {
@@ -332,6 +333,7 @@ body.admin-layout {
 
 .form-actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
     gap: 15px;
     margin-top: 25px;
@@ -339,12 +341,10 @@ body.admin-layout {
     border-top: 1px solid var(--color-borde);
 }
 
-.btn-primary {
+.btn-primary,
+.btn-secondary {
     display: inline-block;
     padding: 10px 20px;
-    background-color: var(--color-primario);
-    color: var(--color-blanco);
-    border: none;
     border-radius: 6px;
     font-size: 14px;
     font-weight: 600;
@@ -354,21 +354,20 @@ body.admin-layout {
     transition: background-color 0.2s;
 }
 
+.btn-primary {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border: 1px solid transparent;
+}
+
 .btn-primary:hover {
     background-color: var(--color-secundario);
 }
 
 .btn-secondary {
-    padding: 12px 20px;
     background-color: var(--color-fondo);
     color: var(--color-texto);
     border: 1px solid var(--color-borde);
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
 }
 
 .btn-secondary:hover {
@@ -398,6 +397,44 @@ body.admin-layout {
     border-radius: 6px;
     font-size: 14px;
     min-width: 200px;
+}
+
+.dashboard-cards .input-search {
+    min-width: 0;
+    flex: 1 1 120px;
+}
+
+.table-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.action-link {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--color-primario);
+    background-color: var(--color-fondo);
+    border: 1px solid var(--color-borde);
+    transition: background-color 0.2s;
+}
+
+.action-link:hover {
+    background-color: var(--color-borde);
+}
+
+.action-link.danger {
+    color: var(--color-peligro);
+    border-color: #fecaca;
+    background-color: #fef2f2;
+}
+
+.action-link.danger:hover {
+    background-color: #fee2e2;
 }
 
 /* =========================================
@@ -444,5 +481,22 @@ body.admin-layout {
     .btn-logout {
         padding: 8px 12px;
         font-size: 0.85rem;
+    }
+
+    .filters,
+    .input-search,
+    .select-filter,
+    .toolbar .btn-add {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .form-actions .btn-primary,
+    .form-actions .btn-secondary {
+        width: 100%;
     }
 }

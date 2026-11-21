@@ -127,7 +127,7 @@ erDiagram
 La interfaz administrativa está construida con HTML, CSS y JavaScript sin frameworks externos, utilizando un diseño responsivo con menú lateral adaptable a pantallas pequeñas. Todas las pantallas funcionan como páginas dedicadas conectadas mediante parámetros `GET` para facilitar la integración posterior con PHP y MariaDB.
 
 ### Módulos Implementados
-- **Acceso y Panel Principal (`login.html`, `inicio.html`):** Pantalla de inicio de sesión y vista general con indicadores del inventario, accesos rápidos y tabla de préstamos activos.
+- **Acceso y Panel Principal (`login.html`, `inicio.html`):** Pantalla de inicio de sesión y vista general con indicadores del inventario y tabla de préstamos activos.
 - **Equipos (`equipos/`):** Inventario con búsqueda y filtro por condición. El formulario `registrar.html` se reutiliza tanto para nuevos registros como para edición al recibir el `id_inventario` por URL.
 - **Solicitantes (`solicitantes/`):** Directorio filtrable por departamento y búsqueda por nombre o número institucional, con formulario único para altas y edición.
 - **Préstamos y Devoluciones (`prestamos/`):** Consulta de préstamos activos, captura de nuevas entregas y recepción de equipo (`devolucion.html`). El flujo de devolución se abre desde la tabla de préstamos activos con el folio correspondiente, muestra en solo lectura al usuario encargado de la entrega y recepción, y permite definir si el equipo regresa a `Disponible` o pasa a `Mantenimiento`.
