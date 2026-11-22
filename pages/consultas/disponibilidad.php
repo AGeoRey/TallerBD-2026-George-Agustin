@@ -14,14 +14,14 @@
         </div>
         <nav class="sidebar-nav">
             <ul>
-                <li><a href="../inicio.html">Inicio</a></li>
-                <li><a href="../equipos/equipos.html">Equipos</a></li>
-                <li><a href="../solicitantes/solicitantes.html">Solicitantes</a></li>
-                <li><a href="../prestamos/prestamos.html">Préstamos</a></li>
-                <li><a href="../mantenimiento/mantenimiento.html">Mantenimiento</a></li>
-                <li><a href="disponibilidad.html" class="active">Disponibilidad</a></li>
-                <li><a href="historial.html">Historial</a></li>
-                <li><a href="../catalogos/catalogos.html">Catálogos</a></li>
+                <li><a href="../inicio.php">Inicio</a></li>
+                <li><a href="../equipos/equipos.php">Equipos</a></li>
+                <li><a href="../solicitantes/solicitantes.php">Solicitantes</a></li>
+                <li><a href="../prestamos/prestamos.php">Préstamos</a></li>
+                <li><a href="../mantenimiento/mantenimiento.php">Mantenimiento</a></li>
+                <li><a href="disponibilidad.php" class="active">Disponibilidad</a></li>
+                <li><a href="historial.php">Historial</a></li>
+                <li><a href="../catalogos/catalogos.php">Catálogos</a></li>
             </ul>
         </nav>
     </aside>
@@ -31,7 +31,7 @@
             <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">☰ Menú</button>
             <div class="user-info">
                 <span>Usuario Administrador</span>
-                <a href="../login.html" class="btn-logout">Cerrar sesión</a>
+                <a href="../login.php" class="btn-logout">Cerrar sesión</a>
             </div>
         </header>
 
@@ -40,7 +40,7 @@
             
             <div class="panel">
                 <div class="toolbar">
-                    <form action="disponibilidad.html" method="GET" class="filters">
+                    <form action="disponibilidad.php" method="GET" class="filters">
                         <select class="select-filter" id="tipo_reporte" name="tipo_reporte">
                             <option value="general">Listado general de equipos</option>
                             <option value="disponibles">Equipos disponibles</option>

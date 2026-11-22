@@ -28,7 +28,7 @@ body {
 }
 
 /* =========================================
-2. PANTALLA DE LOGIN (login.html)
+2. PANTALLA DE LOGIN (login.php)
    ========================================= */
 body.login-layout {
     justify-content: center;
@@ -59,7 +59,7 @@ body.login-layout {
 }
 
 /* =========================================
-3. ESTRUCTURA PRINCIPAL (inicio.html)
+3. ESTRUCTURA PRINCIPAL (inicio.php)
    ========================================= */
 body.admin-layout {
     flex-direction: column;

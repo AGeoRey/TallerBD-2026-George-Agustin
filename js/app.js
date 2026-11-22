@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            window.location.href = 'inicio.html';
+            window.location.href = 'inicio.php';
         });
     }
 });
