@@ -1,41 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disponibilidad | Control de Préstamos</title>
-    <link rel="stylesheet" href="../../css/estilos.css">
-</head>
-<body class="admin-layout">
-    
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2>Inventario</h2>
-        </div>
-        <nav class="sidebar-nav">
-            <ul>
-                <li><a href="../inicio.php">Inicio</a></li>
-                <li><a href="../equipos/equipos.php">Equipos</a></li>
-                <li><a href="../solicitantes/solicitantes.php">Solicitantes</a></li>
-                <li><a href="../prestamos/prestamos.php">Préstamos</a></li>
-                <li><a href="../mantenimiento/mantenimiento.php">Mantenimiento</a></li>
-                <li><a href="disponibilidad.php" class="active">Disponibilidad</a></li>
-                <li><a href="historial.php">Historial</a></li>
-                <li><a href="../catalogos/catalogos.php">Catálogos</a></li>
-            </ul>
-        </nav>
-    </aside>
-
-    <main class="main-content">
-        <header class="topbar">
-            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">☰ Menú</button>
-            <div class="user-info">
-                <span>Usuario Administrador</span>
-                <a href="../login.php" class="btn-logout">Cerrar sesión</a>
-            </div>
-        </header>
-
-        <section class="content">
+<?php
+$titulo = 'Disponibilidad';
+$pagina_actual = 'disponibilidad';
+$base = '../../';
+require $base . 'includes/header.php';
+?>
             <h1>Disponibilidad de Equipos</h1>
             
             <div class="panel">
@@ -68,9 +36,6 @@
                     </table>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <script src="../../js/app.js"></script>
-</body>
-</html>
+<?php
+require $base . 'includes/footer.php';
+?>

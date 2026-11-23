@@ -196,6 +196,12 @@ body.admin-layout {
     margin-bottom: 30px;
 }
 
+.catalogos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 20px;
+}
+
 .card,
 .panel {
     background-color: var(--color-blanco);
@@ -250,7 +256,7 @@ body.admin-layout {
     min-width: 600px;
 }
 
-.dashboard-cards .data-table {
+.catalogos-grid .data-table {
     min-width: 0;
 }
 
@@ -399,7 +405,7 @@ body.admin-layout {
     min-width: 200px;
 }
 
-.dashboard-cards .input-search {
+.catalogos-grid .input-search {
     min-width: 0;
     flex: 1 1 120px;
 }
@@ -446,8 +452,10 @@ body.admin-layout {
     }
 
     .sidebar {
-        position: relative;
-        height: auto;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        height: 100dvh;
         transform: translateX(0);
         flex-shrink: 0;
     }

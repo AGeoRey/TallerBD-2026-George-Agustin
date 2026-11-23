@@ -1,50 +1,18 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Equipo | Control de Préstamos</title>
-    <link rel="stylesheet" href="../../css/estilos.css">
-</head>
-<body class="admin-layout">
-    
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2>Inventario</h2>
-        </div>
-        <nav class="sidebar-nav">
-            <ul>
-                <li><a href="../inicio.php">Inicio</a></li>
-                <li><a href="equipos.php" class="active">Equipos</a></li>
-                <li><a href="../solicitantes/solicitantes.php">Solicitantes</a></li>
-                <li><a href="../prestamos/prestamos.php">Préstamos</a></li>
-                <li><a href="../mantenimiento/mantenimiento.php">Mantenimiento</a></li>
-                <li><a href="../consultas/disponibilidad.php">Disponibilidad</a></li>
-                <li><a href="../consultas/historial.php">Historial</a></li>
-                <li><a href="../catalogos/catalogos.php">Catálogos</a></li>
-            </ul>
-        </nav>
-    </aside>
-
-    <main class="main-content">
-        <header class="topbar">
-            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">☰ Menú</button>
-            <div class="user-info">
-                <span>Usuario Administrador</span>
-                <a href="../login.php" class="btn-logout">Cerrar sesión</a>
-            </div>
-        </header>
-
-        <section class="content">
+<?php
+$titulo = 'Registrar Equipo';
+$pagina_actual = 'equipos';
+$base = '../../';
+require $base . 'includes/header.php';
+?>
             <h1>Datos del Equipo</h1>
             
             <div class="panel form-panel">
-                <form action="equipos.php" method="GET">
+                <form action="equipos.php" method="POST">
                     
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="id_inventario">Identificación (ID Inventario)</label>
-                            <input type="text" id="id_inventario" name="id_inventario" required>
+                            <input type="text" id="id_inventario" name="id_inventario" maxlength="50" required>
                         </div>
 
                         <div class="form-group">
@@ -74,7 +42,7 @@
 
                     <div class="form-group full-width">
                         <label for="descripcion">Descripción del equipo</label>
-                        <textarea id="descripcion" name="descripcion" rows="3" required></textarea>
+                        <textarea id="descripcion" name="descripcion" rows="3" maxlength="200" required></textarea>
                     </div>
 
                     <div class="form-actions">
@@ -83,9 +51,6 @@
                     </div>
                 </form>
             </div>
-        </section>
-    </main>
-
-    <script src="../../js/app.js"></script>
-</body>
-</html>
+<?php
+require $base . 'includes/footer.php';
+?>

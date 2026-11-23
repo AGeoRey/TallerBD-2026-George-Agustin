@@ -1,53 +1,22 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Préstamos | Control de Préstamos</title>
-    <link rel="stylesheet" href="../../css/estilos.css">
-</head>
-<body class="admin-layout">
-    
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2>Inventario</h2>
-        </div>
-        <nav class="sidebar-nav">
-            <ul>
-                <li><a href="../inicio.php">Inicio</a></li>
-                <li><a href="../equipos/equipos.php">Equipos</a></li>
-                <li><a href="../solicitantes/solicitantes.php">Solicitantes</a></li>
-                <li><a href="prestamos.php" class="active">Préstamos</a></li>
-                <li><a href="../mantenimiento/mantenimiento.php">Mantenimiento</a></li>
-                <li><a href="../consultas/disponibilidad.php">Disponibilidad</a></li>
-                <li><a href="../consultas/historial.php">Historial</a></li>
-                <li><a href="../catalogos/catalogos.php">Catálogos</a></li>
-            </ul>
-        </nav>
-    </aside>
-
-    <main class="main-content">
-        <header class="topbar">
-            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">☰ Menú</button>
-            <div class="user-info">
-                <span>Usuario Administrador</span>
-                <a href="../login.php" class="btn-logout">Cerrar sesión</a>
-            </div>
-        </header>
-
-        <section class="content">
+<?php
+$titulo = 'Préstamos';
+$pagina_actual = 'prestamos';
+$base = '../../';
+require $base . 'includes/header.php';
+?>
             <h1>Préstamos Activos</h1>
             
             <div class="panel">
                 <div class="toolbar">
-                    <div class="filters">
-                        <input type="text" placeholder="Equipo o solicitante..." class="input-search">
-                        <select class="select-filter">
+                    <form action="prestamos.php" method="GET" class="filters">
+                        <input type="text" name="buscar" placeholder="Equipo o solicitante..." class="input-search">
+                        <select name="estado" class="select-filter">
                             <option value="">Todos los estados</option>
                             <option value="Vigente">Vigente</option>
                             <option value="Vencido">Vencido</option>
                         </select>
-                    </div>
+                        <button type="submit" class="btn-secondary">Filtrar</button>
+                    </form>
                     <a href="registrar.php" class="btn-primary btn-add">+ Registrar Préstamo</a>
                 </div>
 
@@ -71,9 +40,6 @@
                     </table>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <script src="../../js/app.js"></script>
-</body>
-</html>
+<?php
+require $base . 'includes/footer.php';
+?>

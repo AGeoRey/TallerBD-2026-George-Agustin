@@ -9,10 +9,10 @@
 <body class="login-layout">
     <div class="login-container">
         <h1>Control de Equipo Tecnológico</h1>
-        <form id="loginForm">
+        <form id="loginForm" method="POST">
             <div class="form-group">
                 <label for="username">Usuario</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" maxlength="50" required>
             </div>
             <div class="form-group">
                 <label for="password">Contraseña</label>
