@@ -3,6 +3,9 @@ $titulo = 'Catálogos';
 $pagina_actual = 'catalogos';
 $base = '../../';
 
+require_once $base . 'includes/auth.php';
+requerirAdmin($base);
+
 require_once $base . 'includes/conexion.php';
 
 $mensaje = '';

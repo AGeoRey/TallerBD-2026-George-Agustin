@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS db_inventario;
+CREATE DATABASE IF NOT EXISTS `db_inventario-10`;
 
-USE db_inventario;
+USE `db_inventario-10`;
 
 CREATE TABLE IF NOT EXISTS departamentos (
     id_departamento INT AUTO_INCREMENT PRIMARY KEY,

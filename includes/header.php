@@ -2,6 +2,7 @@
 $titulo = $titulo ?? 'Panel';
 $pagina_actual = $pagina_actual ?? '';
 $base = $base ?? '../../';
+require_once __DIR__ . '/auth.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,7 +27,9 @@ $base = $base ?? '../../';
                 <li><a href="<?= $base ?>pages/mantenimiento/mantenimiento.php"<?= $pagina_actual === 'mantenimiento' ? ' class="active"' : '' ?>>Mantenimiento</a></li>
                 <li><a href="<?= $base ?>pages/consultas/disponibilidad.php"<?= $pagina_actual === 'disponibilidad' ? ' class="active"' : '' ?>>Disponibilidad</a></li>
                 <li><a href="<?= $base ?>pages/consultas/historial.php"<?= $pagina_actual === 'historial' ? ' class="active"' : '' ?>>Historial</a></li>
-                <li><a href="<?= $base ?>pages/catalogos/catalogos.php"<?= $pagina_actual === 'catalogos' ? ' class="active"' : '' ?>>Catálogos</a></li>
+                <?php if (esAdmin()): ?>
+                    <li><a href="<?= $base ?>pages/catalogos/catalogos.php"<?= $pagina_actual === 'catalogos' ? ' class="active"' : '' ?>>Catálogos</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
     </aside>
@@ -35,8 +38,8 @@ $base = $base ?? '../../';
         <header class="topbar">
             <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">☰ Menú</button>
             <div class="user-info">
-                <span>Usuario Administrador</span>
-                <a href="<?= $base ?>pages/login.php" class="btn-logout">Cerrar sesión</a>
+                <span><?= htmlspecialchars($_SESSION['username']) ?> (<?= htmlspecialchars($_SESSION['rol']) ?>)</span>
+                <a href="<?= $base ?>pages/logout.php" class="btn-logout">Cerrar sesión</a>
             </div>
         </header>
 

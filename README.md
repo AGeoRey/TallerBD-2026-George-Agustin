@@ -29,7 +29,7 @@ De acuerdo con los requisitos y el entorno de evaluación del proyecto, el desar
 ---
 
 ## 3. Modelo de Datos (Avance 1 - DDL)
-La base de datos `db_inventario` utiliza un modelo relacional normalizado con llaves foráneas configuradas en `ON DELETE RESTRICT` para garantizar la integridad referencial y evitar la pérdida de información en cascada.
+La base de datos `db_inventario-10` utiliza un modelo relacional normalizado con llaves foráneas configuradas en `ON DELETE RESTRICT` para garantizar la integridad referencial y evitar la pérdida de información en cascada.
 
 ### Descripción de Tablas
 
@@ -179,5 +179,5 @@ Los perfiles `Administrador` y `Consulta` comparten la misma estructura de panta
 - `pages/` — Pantallas HTML organizadas por módulo funcional.
 - `css/estilos.css` — Hoja de estilos general y reglas responsivas.
 - `js/app.js` — Comportamiento del menú lateral en dispositivos móviles.
-- `base_datos.sql` — Script DDL con la creación de `db_inventario`, tablas, llaves y restricciones de integridad.
+- `base_datos.sql` — Script DDL con la creación de `db_inventario-10`, tablas, llaves y restricciones de integridad.
 - `README.md` — Documentación del modelo de datos y de la estructura del frontend.

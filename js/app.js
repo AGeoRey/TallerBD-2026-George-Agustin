@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Control del menú lateral responsivo
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
 
@@ -13,16 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
                 sidebar.classList.remove('active');
             }
-        });
-    }
-
-    // 2. Simulación de acceso (solo para la maqueta visual)
-    const loginForm = document.getElementById('loginForm');
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            window.location.href = 'inicio.php';
         });
     }
 });
