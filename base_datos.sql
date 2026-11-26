@@ -79,6 +79,13 @@ CREATE TABLE IF NOT EXISTS historial_estados (
     FOREIGN KEY (id_inventario) REFERENCES equipos(id_inventario) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+-- Usuarios iniciales de prueba para el sistema web:
+-- Administrador -> usuario: admin | contrasena: admin123
+-- Consulta      -> usuario: consulta | contrasena: consulta123
+INSERT IGNORE INTO usuarios_app (username, password_hash, rol) VALUES
+('admin', '$2y$12$aUqUXaPaIqtYdvZv9HMSseA5ORlhAvGnzX5YFcWGfeYDkgV5SOu82', 'Administrador'),
+('consulta', '$2y$12$p8h8oTiuiWxY2ssfNpvIB.0rao7kkwN/SnGe872BHuGuiyYMRdWAi', 'Consulta');
+
 /*
 Observaciones (objetos programables):
 Contempla cómo impedir que un equipo pueda tener dos préstamos activos al mismo tiempo.
