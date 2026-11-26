@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/config.php';
 
+date_default_timezone_set('America/Mexico_City');
+
 $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4';
 
 $opciones = [
