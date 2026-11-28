@@ -48,7 +48,7 @@ if ($tipo_reporte === 'general') {
         'SELECT p.id_prestamo, p.id_inventario, e.descripcion AS equipo,
                 s.numero_institucional, s.nombre AS solicitante, d.nombre AS departamento,
                 p.fecha_prevista_devolucion,
-                DATEDIFF(NOW(), p.fecha_prevista_devolucion) AS dias_retraso
+                TIMESTAMPDIFF(MINUTE, p.fecha_prevista_devolucion, NOW()) AS minutos_retraso
          FROM prestamos p
          INNER JOIN equipos e ON p.id_inventario = e.id_inventario
          INNER JOIN solicitantes s ON p.id_solicitante = s.id_solicitante
@@ -56,6 +56,20 @@ if ($tipo_reporte === 'general') {
          WHERE p.fecha_recepcion IS NULL AND p.fecha_prevista_devolucion < NOW()
          ORDER BY p.fecha_prevista_devolucion ASC'
     )->fetchAll();
+}
+
+function formatearRetraso(int $minutos): string {
+    if ($minutos < 60) {
+        return $minutos < 1 ? 'Menos de 1 min' : $minutos . ' min';
+    }
+    $horas = intdiv($minutos, 60);
+    if ($horas < 24) {
+        return $horas === 1 ? '1 hora' : $horas . ' horas';
+    }
+    $dias = intdiv($horas, 24);
+    $horas_restantes = $horas % 24;
+    $texto = $dias === 1 ? '1 día' : $dias . ' días';
+    return $horas_restantes > 0 ? $texto . ' ' . $horas_restantes . ' h' : $texto;
 }
 
 require $base . 'includes/header.php';
@@ -162,7 +176,7 @@ require $base . 'includes/header.php';
                                     <th>Solicitante</th>
                                     <th>Departamento</th>
                                     <th>Devolución Prevista</th>
-                                    <th>Días de Retraso</th>
+                                    <th>Retraso</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -176,7 +190,7 @@ require $base . 'includes/header.php';
                                             <td><?= htmlspecialchars($fila['numero_institucional'] . ' - ' . $fila['solicitante']) ?></td>
                                             <td><?= htmlspecialchars($fila['departamento']) ?></td>
                                             <td><?= htmlspecialchars($fila['fecha_prevista_devolucion']) ?></td>
-                                            <td><?= (int) $fila['dias_retraso'] ?></td>
+                                            <td><?= formatearRetraso((int) $fila['minutos_retraso']) ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>

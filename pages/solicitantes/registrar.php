@@ -17,6 +17,18 @@ $solicitante = [
 
 $departamentos = $pdo->query('SELECT id_departamento, nombre FROM departamentos ORDER BY nombre')->fetchAll();
 
+if ($id > 0) {
+    $stmt = $pdo->prepare('SELECT numero_institucional, nombre, id_departamento FROM solicitantes WHERE id_solicitante = ?');
+    $stmt->execute([$id]);
+    $fila = $stmt->fetch();
+
+    if (!$fila) {
+        header('Location: solicitantes.php');
+        exit;
+    }
+    $solicitante = $fila;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $solicitante['nombre'] = trim($_POST['nombre'] ?? '');
     $solicitante['numero_institucional'] = trim($_POST['numero_institucional'] ?? '');
@@ -55,16 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-} elseif ($id > 0) {
-    $stmt = $pdo->prepare('SELECT numero_institucional, nombre, id_departamento FROM solicitantes WHERE id_solicitante = ?');
-    $stmt->execute([$id]);
-    $fila = $stmt->fetch();
-
-    if (!$fila) {
-        header('Location: solicitantes.php');
-        exit;
-    }
-    $solicitante = $fila;
 }
 
 $titulo = $id > 0 ? 'Editar Solicitante' : 'Registrar Solicitante';

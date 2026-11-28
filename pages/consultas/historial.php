@@ -55,6 +55,9 @@ if ($buscado) {
     }
 }
 
+$lista_equipos = $pdo->query('SELECT id_inventario, descripcion FROM equipos ORDER BY id_inventario')->fetchAll();
+$lista_solicitantes = $pdo->query('SELECT numero_institucional, nombre FROM solicitantes ORDER BY nombre')->fetchAll();
+
 require $base . 'includes/header.php';
 ?>
             <h1>Historial de Movimientos</h1>
@@ -62,12 +65,23 @@ require $base . 'includes/header.php';
             <div class="panel">
                 <div class="toolbar">
                     <form action="historial.php" method="GET" class="filters">
-                        <select class="select-filter" name="criterio_busqueda">
+                        <select class="select-filter" id="criterio_busqueda" name="criterio_busqueda">
                             <option value="equipo"<?= $criterio === 'equipo' ? ' selected' : '' ?>>Por ID de Equipo</option>
                             <option value="solicitante"<?= $criterio === 'solicitante' ? ' selected' : '' ?>>Por Número Institucional</option>
                         </select>
-                        <input type="text" name="valor_busqueda" placeholder="Ingrese el identificador..." class="input-search" value="<?= htmlspecialchars($valor) ?>" required>
+                        <input type="text" id="valor_busqueda" name="valor_busqueda" list="<?= $criterio === 'equipo' ? 'lista_equipos' : 'lista_solicitantes' ?>" placeholder="Ingrese el identificador..." class="input-search" value="<?= htmlspecialchars($valor) ?>" required>
                         <button type="submit" class="btn-primary">Buscar Historial</button>
+
+                        <datalist id="lista_equipos">
+                            <?php foreach ($lista_equipos as $eq): ?>
+                                <option value="<?= htmlspecialchars($eq['id_inventario']) ?>"><?= htmlspecialchars($eq['descripcion']) ?></option>
+                            <?php endforeach; ?>
+                        </datalist>
+                        <datalist id="lista_solicitantes">
+                            <?php foreach ($lista_solicitantes as $sol): ?>
+                                <option value="<?= htmlspecialchars($sol['numero_institucional']) ?>"><?= htmlspecialchars($sol['nombre']) ?></option>
+                            <?php endforeach; ?>
+                        </datalist>
                     </form>
                 </div>
 

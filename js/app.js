@@ -13,4 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    const criterioBusqueda = document.getElementById('criterio_busqueda');
+    const valorBusqueda = document.getElementById('valor_busqueda');
+
+    if (criterioBusqueda && valorBusqueda) {
+        criterioBusqueda.addEventListener('change', () => {
+            valorBusqueda.setAttribute('list', criterioBusqueda.value === 'equipo' ? 'lista_equipos' : 'lista_solicitantes');
+            valorBusqueda.value = '';
+        });
+    }
 });

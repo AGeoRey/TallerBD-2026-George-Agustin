@@ -8,7 +8,16 @@ requerirAdmin($base);
 
 require_once $base . 'includes/conexion.php';
 
-$mensaje = '';
+$mensajes_ok = [
+    'dep_agregado'  => 'Departamento agregado.',
+    'dep_eliminado' => 'Departamento eliminado.',
+    'cat_agregada'  => 'Categoría agregada.',
+    'cat_eliminada' => 'Categoría eliminada.',
+    'mar_agregada'  => 'Marca agregada.',
+    'mar_eliminada' => 'Marca eliminada.',
+];
+
+$mensaje = $mensajes_ok[$_GET['ok'] ?? ''] ?? '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,12 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $stmt = $pdo->prepare('INSERT INTO departamentos (nombre) VALUES (?)');
                 $stmt->execute([$nombre]);
-                $mensaje = 'Departamento agregado.';
+                header('Location: catalogos.php?ok=dep_agregado');
+                exit;
             }
         } elseif (isset($_POST['eliminar_departamento'])) {
             $stmt = $pdo->prepare('DELETE FROM departamentos WHERE id_departamento = ?');
-            $stmt->execute([$_POST['eliminar_departamento']]);
-            $mensaje = 'Departamento eliminado.';
+            $stmt->execute([(int) $_POST['eliminar_departamento']]);
+            if ($stmt->rowCount() > 0) {
+                header('Location: catalogos.php?ok=dep_eliminado');
+                exit;
+            }
+            $error = 'El departamento seleccionado ya no existe.';
         } elseif (isset($_POST['nueva_categoria'])) {
             $nombre = trim($_POST['nueva_categoria']);
             if ($nombre === '') {
@@ -33,12 +47,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $stmt = $pdo->prepare('INSERT INTO categorias (nombre) VALUES (?)');
                 $stmt->execute([$nombre]);
-                $mensaje = 'Categoría agregada.';
+                header('Location: catalogos.php?ok=cat_agregada');
+                exit;
             }
         } elseif (isset($_POST['eliminar_categoria'])) {
             $stmt = $pdo->prepare('DELETE FROM categorias WHERE id_categoria = ?');
-            $stmt->execute([$_POST['eliminar_categoria']]);
-            $mensaje = 'Categoría eliminada.';
+            $stmt->execute([(int) $_POST['eliminar_categoria']]);
+            if ($stmt->rowCount() > 0) {
+                header('Location: catalogos.php?ok=cat_eliminada');
+                exit;
+            }
+            $error = 'La categoría seleccionada ya no existe.';
         } elseif (isset($_POST['nueva_marca'])) {
             $nombre = trim($_POST['nueva_marca']);
             if ($nombre === '') {
@@ -46,12 +65,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $stmt = $pdo->prepare('INSERT INTO marcas (nombre) VALUES (?)');
                 $stmt->execute([$nombre]);
-                $mensaje = 'Marca agregada.';
+                header('Location: catalogos.php?ok=mar_agregada');
+                exit;
             }
         } elseif (isset($_POST['eliminar_marca'])) {
             $stmt = $pdo->prepare('DELETE FROM marcas WHERE id_marca = ?');
-            $stmt->execute([$_POST['eliminar_marca']]);
-            $mensaje = 'Marca eliminada.';
+            $stmt->execute([(int) $_POST['eliminar_marca']]);
+            if ($stmt->rowCount() > 0) {
+                header('Location: catalogos.php?ok=mar_eliminada');
+                exit;
+            }
+            $error = 'La marca seleccionada ya no existe.';
         }
     } catch (PDOException $e) {
         $codigo = $e->errorInfo[1] ?? 0;

@@ -11,7 +11,8 @@ $resumen = $pdo->query(
             SUM(condicion_actual = 'Disponible') AS disponibles,
             SUM(condicion_actual = 'Prestado') AS prestados,
             SUM(condicion_actual = 'Mantenimiento') AS mantenimiento
-     FROM equipos"
+     FROM equipos
+     WHERE condicion_actual <> 'Baja'"
 )->fetch();
 
 $prestamos_activos = $pdo->query(
@@ -33,7 +34,7 @@ require $base . 'includes/header.php';
             <!-- TARJETAS DE INDICADORES -->
             <div class="dashboard-cards">
                 <div class="card">
-                    <h3>Total de Equipos</h3>
+                    <h3>Equipos Activos</h3>
                     <p class="card-number"><?= (int) ($resumen['total'] ?? 0) ?></p>
                 </div>
                 <div class="card">

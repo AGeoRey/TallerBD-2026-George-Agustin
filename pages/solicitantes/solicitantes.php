@@ -13,14 +13,20 @@ if (($_GET['ok'] ?? '') === 'registrado') {
     $mensaje = 'Solicitante registrado correctamente.';
 } elseif (($_GET['ok'] ?? '') === 'actualizado') {
     $mensaje = 'Datos del solicitante actualizados.';
+} elseif (($_GET['ok'] ?? '') === 'eliminado') {
+    $mensaje = 'Solicitante eliminado.';
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_id'])) {
     requerirAdmin($base);
     try {
         $stmt = $pdo->prepare('DELETE FROM solicitantes WHERE id_solicitante = ?');
-        $stmt->execute([$_POST['eliminar_id']]);
-        $mensaje = 'Solicitante eliminado.';
+        $stmt->execute([(int) $_POST['eliminar_id']]);
+        if ($stmt->rowCount() > 0) {
+            header('Location: solicitantes.php?ok=eliminado');
+            exit;
+        }
+        $error = 'El solicitante seleccionado ya no existe.';
     } catch (PDOException $e) {
         $codigo = $e->errorInfo[1] ?? 0;
         if ($codigo == 1451) {

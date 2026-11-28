@@ -13,6 +13,8 @@ if (($_GET['ok'] ?? '') === 'registrado') {
     $mensaje = 'Equipo registrado correctamente.';
 } elseif (($_GET['ok'] ?? '') === 'actualizado') {
     $mensaje = 'Datos del equipo actualizados.';
+} elseif (($_GET['ok'] ?? '') === 'eliminado') {
+    $mensaje = 'Equipo eliminado.';
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_id'])) {
@@ -20,7 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_id'])) {
     try {
         $stmt = $pdo->prepare('DELETE FROM equipos WHERE id_inventario = ?');
         $stmt->execute([$_POST['eliminar_id']]);
-        $mensaje = 'Equipo eliminado.';
+        if ($stmt->rowCount() > 0) {
+            header('Location: equipos.php?ok=eliminado');
+            exit;
+        }
+        $error = 'El equipo seleccionado ya no existe.';
     } catch (PDOException $e) {
         $codigo = $e->errorInfo[1] ?? 0;
         if ($codigo == 1451) {

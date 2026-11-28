@@ -140,44 +140,72 @@ Los perfiles `Administrador` y `Consulta` comparten la misma estructura de panta
 
 ---
 
-## 5. Estructura del Repositorio
+## 5. Backend e Integración con MariaDB (Avance 3)
+Todas las pantallas estáticas del avance anterior se migraron a PHP 8 y se conectaron a la base de datos `db_inventario-10` utilizando PDO. Para evitar código repetido, la interfaz comparte cabecera, menú lateral, control de sesión y pie de página desde la carpeta `includes/`.
+
+### Conexión, Seguridad y Sesiones
+- **Acceso a datos (`includes/config.php`, `includes/conexion.php`):** Conexión mediante PDO con `PDO::ATTR_EMULATE_PREPARES => false`, modo de errores por excepciones y zona horaria ajustada a `America/Mexico_City` para coincidir con el servidor MariaDB. Todas las operaciones que reciben datos del usuario usan consultas parametrizadas.
+- **Autenticación y roles (`pages/login.php`, `pages/logout.php`, `includes/auth.php`):** Inicio de sesión validado con `password_verify()` contra los hashes almacenados en `usuarios_app` y regeneración de identificador de sesión al autenticar. La función `requerirAdmin()` bloquea desde el servidor tanto el acceso a formularios como las peticiones `POST` de escritura para usuarios con rol `Consulta`.
+- **Cuentas de prueba incluidas:** `admin` / `admin123` (Administrador) y `consulta` / `consulta123` (Consulta).
+
+### Operaciones SQL y Lógica Implementada
+- **Panel principal (`pages/inicio.php`):** Muestra los contadores de equipos activos (excluyendo registros en `Baja`) y la tabla de préstamos activos obtenida con `JOIN` entre `prestamos`, `equipos` y `solicitantes`.
+- **Equipos, solicitantes y catálogos (`pages/equipos/`, `pages/solicitantes/`, `pages/catalogos/`):** Operaciones `SELECT` con filtros dinámicos, `INSERT`, `UPDATE` (en equipos y solicitantes) y `DELETE`. Los formularios de escritura aplican redirección Post-Redirect-Get (PRG) para evitar reenvíos al recargar, validan la existencia previa del registro y capturan códigos de error de MariaDB (`1062` para duplicados y `1451` para proteger registros con historial bajo `ON DELETE RESTRICT`). En equipos solo se permite cambiar manualmente entre `Disponible` y `Baja`.
+- **Préstamos, devoluciones y mantenimiento (`pages/prestamos/`, `pages/mantenimiento/`):** Las operaciones compuestas se ejecutan dentro de transacciones (`beginTransaction`, `commit`, `rollBack`) con bloqueo de fila mediante `SELECT ... FOR UPDATE` para evitar préstamos duplicados o actualizaciones incompletas:
+  - Al registrar un préstamo se verifica disponibilidad, se guarda la entrega y el equipo pasa a `Prestado`.
+  - Al registrar una devolución se actualiza el préstamo y el equipo pasa a `Disponible` o a `Mantenimiento`; en el segundo caso se inserta automáticamente el reporte en `bitacora_mantenimiento`.
+  - Al reportar o finalizar una falla se sincroniza `bitacora_mantenimiento` con la condición del equipo (`Mantenimiento`, `Disponible` o `Baja`).
+- **Consultas y reportes (`pages/consultas/`):** `disponibilidad.php` ejecuta las vistas con `JOIN` para listado general, equipos disponibles, préstamos activos y préstamos vencidos, calculando el tiempo exacto de atraso con `TIMESTAMPDIFF(MINUTE, ...)` formateado a minutos, horas o días. `historial.php` consulta préstamos y cambios de estado por equipo o por solicitante, apoyándose en listas `<datalist>` actualizadas dinámicamente desde `js/app.js`.
+- **Datos iniciales de prueba (`base_datos.sql`):** Se eliminó `CREATE DATABASE` para ejecutar `USE` directamente sobre la base asignada en el servidor. Se incorporaron catálogos, solicitantes, equipos en todos los estados, préstamos históricos, vigentes y vencidos (con fechas relativas a `NOW()`), bitácora de mantenimiento e historial de estados, dejando registros sin uso para comprobar operaciones `DELETE`. Los objetos programables (procedimiento almacenado, función almacenada y trigger) se integrarán en la entrega final.
+
+---
+
+## 6. Estructura del Repositorio
 
 ```text
 /
-├── index.html
+├── index.php
 ├── base_datos.sql
 ├── README.md
 ├── css/
 │   └── estilos.css
+├── includes/
+│   ├── auth.php
+│   ├── conexion.php
+│   ├── config.php
+│   ├── footer.php
+│   └── header.php
 ├── js/
 │   └── app.js
 └── pages/
-    ├── login.html
-    ├── inicio.html
-    ├── equipos/
-    │   ├── equipos.html
-    │   └── registrar.html
-    ├── solicitantes/
-    │   ├── solicitantes.html
-    │   └── registrar.html
-    ├── prestamos/
-    │   ├── prestamos.html
-    │   ├── registrar.html
-    │   └── devolucion.html
-    ├── mantenimiento/
-    │   ├── mantenimiento.html
-    │   ├── registrar.html
-    │   └── finalizar.html
+    ├── login.php
+    ├── logout.php
+    ├── inicio.php
+    ├── catalogos/
+    │   └── catalogos.php
     ├── consultas/
-    │   ├── disponibilidad.html
-    │   └── historial.html
-    └── catalogos/
-        └── catalogos.html
+    │   ├── disponibilidad.php
+    │   └── historial.php
+    ├── equipos/
+    │   ├── equipos.php
+    │   └── registrar.php
+    ├── mantenimiento/
+    │   ├── finalizar.php
+    │   ├── mantenimiento.php
+    │   └── registrar.php
+    ├── prestamos/
+    │   ├── devolucion.php
+    │   ├── prestamos.php
+    │   └── registrar.php
+    └── solicitantes/
+        ├── registrar.php
+        └── solicitantes.php
 ```
 
-- `index.html` — Punto de entrada que redirige al inicio de sesión.
-- `pages/` — Pantallas HTML organizadas por módulo funcional.
-- `css/estilos.css` — Hoja de estilos general y reglas responsivas.
-- `js/app.js` — Comportamiento del menú lateral en dispositivos móviles.
-- `base_datos.sql` — Script DDL con la creación de `db_inventario-10`, tablas, llaves y restricciones de integridad.
-- `README.md` — Documentación del modelo de datos y de la estructura del frontend.
+- `index.php` — Punto de entrada que redirige a `pages/login.php`.
+- `includes/` — Configuración de base de datos, conexión PDO, verificación de sesión/roles y plantillas compartidas de interfaz.
+- `pages/` — Módulos PHP funcionales con su lógica de acceso a datos y vistas.
+- `css/estilos.css` — Hoja de estilos general y diseño responsivo.
+- `js/app.js` — Menú lateral en pantallas pequeñas y cambio de sugerencias de búsqueda en el historial.
+- `base_datos.sql` — Script ejecutable con la estructura DDL de `db_inventario-10`, usuarios de acceso y datos iniciales de prueba.
+- `README.md` — Documentación acumulada del modelo de datos, frontend y backend.
